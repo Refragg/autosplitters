@@ -105,7 +105,9 @@ state("Sonic Adventure DX")
 	byte mk2Value : 0x0386C760;
 	byte AngelCutscene : 0x03883D08;
 	byte selectedCharacter : 0x0372A2FD;
-	
+	byte music : 0x0512698;
+	byte lwFlag : 0x0371892A;
+
 	byte17 emblemBytes: 0x0372B5E8;
 	byte353 eventBytes: 0x03718888;
 	
