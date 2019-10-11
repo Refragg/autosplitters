@@ -8,10 +8,6 @@
    framerate does not give you any advantage over others
    in terms of IGT.
    
-   As of now, this timer does not split for you, but that
-   could of course be added on by merging this code 
-   with the existing autosplitter.
-   
    During cutscenes, the game runs at half the framerate, 
    so this timer adds double the frames when in cutscenes.
    
@@ -60,7 +56,7 @@ state("sonic")
 	byte selectedCharacter : 0x0372A2FD;
 	byte music : 0x0512698;
 	byte lwFlag : 0x0371892A;
-
+	
 	byte17 emblemBytes: 0x0372B5E8;
 	byte353 eventBytes: 0x03718888;
 	
@@ -130,6 +126,7 @@ state("Sonic Adventure DX")
 	byte laserblaster : "sonic.exe", 0x3718992;
 }
 
+
 startup
 {
 	vars.totalFrameCount = 0;
@@ -186,6 +183,12 @@ startup
 		settings.Add("MisceKnuckles", false, "Knuckles Miscellaneous");
 		settings.CurrentDefaultParent = "MisceKnuckles";
 			settings.Add("deathMRKnux", false, "Death Warp Mystic Ruin");
+			settings.Add("EnterEGCarrierKnux", false, "Enter Egg Carrier (Before Sky Deck)");
+			settings.CurrentDefaultParent = null;	
+			
+					settings.Add("MisceAmy", false, "Amy Miscellaneous");
+		settings.CurrentDefaultParent = "MisceAmy";
+			settings.Add("EnterEGCarrierAmy", false, "Enter Egg Carrier (Before Zero)");
 			settings.CurrentDefaultParent = null;	
 		
 		settings.Add("MisceGamma", false, "Gamma Miscellaneous");
@@ -214,7 +217,7 @@ startup
 	settings.Add("ESH", false, "Enter Speed Highway");
 	settings.Add("ERM", false, "Enter Red Mountain");
 	settings.Add("ESD", false, "Enter Sky Deck");
-	settings.Add("ELW", false, "Enter  Lost World");
+	settings.Add("ELW", false, "Enter Lost World");
 	settings.Add("EFE", false, "Enter Final Egg");
 	settings.Add("EHS", false, "Enter Hot Shelter");
 	settings.CurrentDefaultParent = null;		
@@ -236,8 +239,6 @@ startup
 	settings.Add("Gamma_Powerup1", false, "Jet Booster");
 	settings.Add("Gamma_Powerup2", false, "Laser Blaster");
 	settings.CurrentDefaultParent = null;	
-	
-
 }
 
 start
@@ -261,8 +262,6 @@ start
 			vars.bossArray.Add(21);
 		if(settings["22"])
 			vars.bossArray.Add(22);
-		if(settings["23"])
-			vars.bossArray.Add(23);
 	}
 	
 	// Ignore splits for stages if selected
@@ -320,6 +319,7 @@ start
 
 	vars.splitMask = tempMask;
 	
+
 	// Split on fade-to-black on story screen
 	if (current.demoPlaying != 1 && old.gameStatus == 21 && (current.gameMode != 12 && current.gameMode != 20) && (old.gameMode == 12 || old.gameMode == 20))
 		return true;
@@ -361,18 +361,23 @@ split
 			if (settings["25"] && current.bossHealth == 0 && current.timerStart == 0 && old.timerStart == 1)
 			{return true;}
 		}
-		else //perfect Chaos splits
-		{ 
-			if (current.level == 19)
-			{
-				if (settings["19"] && current.bossHealth == 0 && old.bossHealth == 2)
-				{return true;}
-			}
+
+		if (current.level == 19)
+		{
+			if (settings["19"] && current.bossHealth == 0 && old.bossHealth == 2)
+			{return true;}
 		}
-			
+
+		if (current.level == 23)
+		{
+			if (settings["23"] && current.bossHealth == 0 && old.bossHealth == 1)
+			{return true;}
+		}
+		
 	}
 
 	
+
 	//Boss Split timing
 	if (vars.bossArray.Contains(current.level))
 	{
@@ -464,6 +469,20 @@ split
 			{
 				if (settings["deathMRKnux"] && current.lwFlag == 1 && current.lives<old.lives && current.currCharacter == 3) {return true;}
 			}
+			
+				if (current.level == 29 && old.level == 33)
+			{
+				if (settings["EnterEGCarrierKnux"] && current.currCharacter == 3) {return true;}
+			}
+		}
+		
+			//Amy
+		if (settings["MisceAmy"])
+		{				
+			if (current.level == 29 && old.level == 33)
+			{
+				if (settings["EnterEGCarrierAmy"] && current.currCharacter == 5) {return true;}
+			}
 		}
 		
 	//Super Sonic
@@ -481,7 +500,7 @@ split
 		// Do not check during menus
 		if (current.gameMode != 12 && (curB[i] != oldB[i]))
 		{
-			if(current.level < 15)  //the action stages?
+			if(current.level < 15)  //the action stages
 			{
 				print("Going to split soon");
 				vars.delay = current.globalFrameCount + 190;
@@ -504,6 +523,7 @@ split
 
 update
 {
+	
 	TimeSpan? rawRTA = timer.CurrentTime.RealTime;
 	TimeSpan currentRTA = new TimeSpan(0);
 	if (rawRTA.HasValue)
