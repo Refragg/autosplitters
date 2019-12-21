@@ -52,6 +52,8 @@ state("sonic")
 	byte adventureData : 0x037183F0;
 	byte rmFlag : 0x037189A5;
 	byte mk2Value : 0x0386C760;
+	byte WalkerValue : 0x0385A7ED;
+	
 	byte AngelCutscene : 0x03883D08;
 	byte selectedCharacter : 0x0372A2FD;
 	byte music : 0x0512698;
@@ -99,6 +101,8 @@ state("Sonic Adventure DX")
 	byte adventureData : 0x037183F0;
 	byte rmFlag : 0x037189A5;
 	byte mk2Value : 0x0386C760;
+	byte WalkerValue : 0x0385A7ED;
+
 	byte AngelCutscene : 0x03883D08;
 	byte selectedCharacter : 0x0372A2FD;
 	byte music : 0x0512698;
@@ -258,8 +262,6 @@ start
 	if (settings["bosses"]){
 		if(settings["18"])
 			vars.bossArray.Add(18);
-		if(settings["21"])
-			vars.bossArray.Add(21);
 		if(settings["22"])
 			vars.bossArray.Add(22);
 	}
@@ -361,22 +363,29 @@ split
 			if (settings["25"] && current.bossHealth == 0 && current.timerStart == 0 && old.timerStart == 1)
 			{return true;}
 		}
-
+		//Perfect Chaos split
 		if (current.level == 19)
 		{
 			if (settings["19"] && current.bossHealth == 0 && old.bossHealth == 2)
 			{return true;}
 		}
 
+		//Zero split
 		if (current.level == 23)
 		{
 			if (settings["23"] && current.bossHealth == 0 && old.bossHealth == 1)
 			{return true;}
 		}
 		
+		//Egg Walker split
+		if (current.level == 21 && current.WalkerValue == 9)
+		{
+			if (settings["21"] && current.bossHealth == 0 && current.timerStart == 0 && old.timerStart == 1)
+			{return true;}	
+		}
+		
 	}
 
-	
 
 	//Boss Split timing
 	if (vars.bossArray.Contains(current.level))
