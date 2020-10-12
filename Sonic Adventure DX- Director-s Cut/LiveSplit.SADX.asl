@@ -145,6 +145,7 @@ startup
 	vars.splitMask = new byte[353];
 	
 	settings.Add("reset",false,"Auto Reset on Main Menu");
+	settings.Add("charSplit", false, "Splits when entering a story");
 	
 	settings.Add("stages",true,"Stages NOT To Split");
 		settings.Add("36",true,"Sky Chace Act 1","stages");
@@ -329,6 +330,9 @@ start
 
 split
 {
+	if (settings["charSplit"] && current.demoPlaying != 1 && old.gameStatus == 21 && (current.gameMode != 12 && current.gameMode != 20) && (old.gameMode == 12 || old.gameMode == 20))
+		return true;
+
 	//Ignore Stages
 	if(vars.ignoredStages.Contains(current.level))
 		return false;
