@@ -30,7 +30,7 @@
    that do watch the credits to have the IGT added.
    
    
-   Version 3 BETA */
+   Version 3.1415926 BETA */
 
 state("sonic")
 {
@@ -156,7 +156,7 @@ startup
 		settings.Add("21",true,"Egg Walker","bosses");//final
 		settings.Add("18",true,"Chaos 6","bosses");//final and not final
 		settings.Add("23",true,"ZERO","bosses");//final
-		settings.Add("25",true,"E-101mkII","bosses");//final
+		settings.Add("25",true,"E-101 'Beta' mkII","bosses");//final
 		settings.Add("19",true,"Perfect Chaos","bosses");//final
 		
 		
@@ -180,70 +180,89 @@ startup
 		settings.Add("fourKnuckles", true, "Chaos 4", "knucklesBoss");	
 		
 	settings.Add("gammaBoss", true, "Gamma Bosses");
-	settings.CurrentDefaultParent = "gammaBoss";
-			settings.Add("E101", false, "E101 BETA");
-			settings.Add("sonicGamma", true, "Sonic", "gammaBoss");
-			settings.CurrentDefaultParent = null;
+		settings.CurrentDefaultParent = "gammaBoss";
+		settings.Add("E101", false, "E101 BETA");
+		settings.Add("sonicGamma", true, "Sonic", "gammaBoss");
+		settings.CurrentDefaultParent = null;
+
+	settings.Add("MisceSonic", false, "Sonic Miscellaneous");
+		settings.CurrentDefaultParent = "MisceSonic";
+		settings.Add("EnterSewerSonic", false, "Enter Sewers");
+		settings.Add("EnterCASHubSonic", false, "Enter Casino Area (To Red Mountain)");
+		settings.CurrentDefaultParent = null;
 			
-		settings.Add("MisceKnuckles", false, "Knuckles Miscellaneous");
-		settings.CurrentDefaultParent = "MisceKnuckles";
-			settings.Add("deathMRKnux", false, "Death Warp Mystic Ruin");
-			settings.Add("EnterEGCarrierKnux", false, "Enter Egg Carrier (Before Sky Deck)");
-			settings.CurrentDefaultParent = null;	
+	settings.Add("MisceKnuckles", false, "Knuckles Miscellaneous");
+	settings.CurrentDefaultParent = "MisceKnuckles";
+		settings.Add("deathMRKnux", false, "Death Warp Mystic Ruin");
+		settings.Add("EnterEGCarrierKnux", false, "Enter Egg Carrier (Before Sky Deck)");
+		settings.CurrentDefaultParent = null;	
 			
-					settings.Add("MisceAmy", false, "Amy Miscellaneous");
+	settings.Add("MisceAmy", false, "Amy Miscellaneous");
 		settings.CurrentDefaultParent = "MisceAmy";
-			settings.Add("EnterEGCarrierAmy", false, "Enter Egg Carrier (Before Zero)");
-			settings.CurrentDefaultParent = null;	
+		settings.Add("EnterCASHubAmy", false, "Enter Casino Area");
+		settings.Add("EnterJungleToFEAmy", false, "Enter Jungle to Final Egg");
+		settings.Add("ExitJungleToECAmy", false, "Exit Jungle from Final Egg");
+		settings.Add("EnterEGCarrierAmy", false, "Enter Egg Carrier (Before Zero)");
+		settings.CurrentDefaultParent = null;	
 		
-		settings.Add("MisceGamma", false, "Gamma Miscellaneous");
+	settings.Add("MisceGamma", false, "Gamma Miscellaneous");
 		settings.CurrentDefaultParent = "MisceGamma";
-			settings.Add("deathWV", false, "Death Mystic Ruin (Windy Valley Flag)");
-			settings.Add("deathMRGamma", false, "Death Warp (Post Red Mountain)");
-			settings.Add("eggCarrierMK2", false, "Enter Egg Carrier (Before MKII)");
-			settings.CurrentDefaultParent = null;	
+		settings.Add("deathWV", false, "Death Mystic Ruin (Windy Valley Flag)");
+		settings.Add("deathMRGamma", false, "Death Warp (Post Red Mountain)");
+		settings.Add("eggCarrierMK2", false, "Enter Egg Carrier (Before MKII)");
+		settings.CurrentDefaultParent = null;	
 			
-		settings.Add("MisceSS", false, "Super Sonic Miscellaneous");
+	settings.Add("MisceSS", false, "Super Sonic Miscellaneous");
 		settings.CurrentDefaultParent = "MisceSS";
-			settings.Add("EnterCave", false, "Enter Cave");
-			settings.Add("AngelIsland", false, "Angel Island Cutscene");
-			settings.Add("Tikal", false, "Tikal Cutscene");
-			settings.Add("deathSS", false, "Death Warp post Tikal Cutscene");
-			settings.Add("jungleSS", false, "Enter Jungle");
-			settings.CurrentDefaultParent = null;	
+		settings.Add("EnterCave", false, "Enter Cave");
+		settings.Add("AngelIsland", false, "Angel Island Cutscene");
+		settings.Add("Tikal", false, "Tikal Cutscene");
+		settings.Add("deathSS", false, "Death Warp post Tikal Cutscene");
+		settings.Add("jungleSS", false, "Enter Jungle");
+		settings.CurrentDefaultParent = null;	
 		
+	settings.Add("Boss_Enter", false, "Enter Boss");
+		settings.CurrentDefaultParent = "Boss_Enter";
+		settings.Add("EnterEggHornet", false, "Enter Egg Hornet");
+		settings.Add("EnterChaos2", false, "Enter Chaos 2");
+		settings.Add("EnterChaos4", false, "Enter Chaos 4");
+		settings.Add("EnterChaos6", false, "Enter Chaos 6");
+		settings.Add("EnterBeta1", false, "Enter E-101 'Beta' mkI");
+		settings.Add("EnterBeta2", false, "Enter E-101 'Beta' mkII");
+		settings.CurrentDefaultParent = null;
+
 	settings.Add("S_Enter", false, "Enter Stage");
-	settings.CurrentDefaultParent = "S_Enter";
-	settings.Add("EEC", false, "Enter Emerald Coast");
-	settings.Add("EWV", false, "Enter Windy Valley");
-	settings.Add("EC", false, "Enter Casino");
-	settings.Add("EIC", false, "Enter Ice Cap");
-	settings.Add("ETP", false, "Enter Twinkle Park");
-	settings.Add("ESH", false, "Enter Speed Highway");
-	settings.Add("ERM", false, "Enter Red Mountain");
-	settings.Add("ESD", false, "Enter Sky Deck");
-	settings.Add("ELW", false, "Enter Lost World");
-	settings.Add("EFE", false, "Enter Final Egg");
-	settings.Add("EHS", false, "Enter Hot Shelter");
-	settings.CurrentDefaultParent = null;		
+		settings.CurrentDefaultParent = "S_Enter";
+		settings.Add("EEC", false, "Enter Emerald Coast");
+		settings.Add("EWV", false, "Enter Windy Valley");
+		settings.Add("EC", false, "Enter Casino");
+		settings.Add("EIC", false, "Enter Ice Cap");
+		settings.Add("ETP", false, "Enter Twinkle Park");
+		settings.Add("ESH", false, "Enter Speed Highway");
+		settings.Add("ERM", false, "Enter Red Mountain");
+		settings.Add("ESD", false, "Enter Sky Deck");
+		settings.Add("ELW", false, "Enter Lost World");
+		settings.Add("EFE", false, "Enter Final Egg");
+		settings.Add("EHS", false, "Enter Hot Shelter");
+		settings.CurrentDefaultParent = null;		
 			
 	settings.Add("S_Power", false, "Upgrades");
-	settings.CurrentDefaultParent = "S_Power";
-	settings.Add("Sonic_Powerup1", false, "Light Speed Shoes");
-	settings.Add("Sonic_Powerup2", false, "Crystal Ring");
-	settings.Add("Sonic_Powerup3", false, "Ancient Light");
-	settings.Add("Tails_Powerup1", false, "Jet Anklet");
-	settings.Add("Tails_Powerup2", false, "Rhythm Badge");
-	settings.Add("Knux_Powerup1", false, "Shovel Claw");
-	settings.Add("Knux_Powerup2", false, "Fighting Gloves");
-	settings.Add("Amy_Powerup1", false, "Warrior Feather");
-	settings.Add("Amy_Powerup2", false, "Long Hammer");
-	settings.Add("Big_Powerup1", false, "Power Rod");
-	settings.Add("Big_Powerup2", false, "Life Belt");
-	settings.Add("Big_Powerup3", false, "Lure");
-	settings.Add("Gamma_Powerup1", false, "Jet Booster");
-	settings.Add("Gamma_Powerup2", false, "Laser Blaster");
-	settings.CurrentDefaultParent = null;	
+		settings.CurrentDefaultParent = "S_Power";
+		settings.Add("Sonic_Powerup1", false, "Light Speed Shoes");
+		settings.Add("Sonic_Powerup2", false, "Crystal Ring");
+		settings.Add("Sonic_Powerup3", false, "Ancient Light");
+		settings.Add("Tails_Powerup1", false, "Jet Anklet");
+		settings.Add("Tails_Powerup2", false, "Rhythm Badge");
+		settings.Add("Knux_Powerup1", false, "Shovel Claw");
+		settings.Add("Knux_Powerup2", false, "Fighting Gloves");
+		settings.Add("Amy_Powerup1", false, "Warrior Feather");
+		settings.Add("Amy_Powerup2", false, "Long Hammer");
+		settings.Add("Big_Powerup1", false, "Power Rod");
+		settings.Add("Big_Powerup2", false, "Life Belt");
+		settings.Add("Big_Powerup3", false, "Lure");
+		settings.Add("Gamma_Powerup1", false, "Jet Booster");
+		settings.Add("Gamma_Powerup2", false, "Laser Blaster");
+		settings.CurrentDefaultParent = null;	
 }
 
 start
@@ -353,15 +372,15 @@ split
 		return true;
 
 	//E-101 split
-		if (settings["gammaBoss"])
+	if (settings["gammaBoss"])
 	{
 		if (settings["E101"] && current.currCharacter == 6 && current.e101Flag > old.e101Flag) 
 		{return true;}
 	}
 	
-	//MKII split
-		if (settings["bosses"])
+	if (settings["bosses"])
 	{
+		//MKII split
 		if (current.level == 25 && current.mk2Value == 255)
 		{
 			if (settings["25"] && current.bossHealth == 0 && current.timerStart == 0 && old.timerStart == 1)
@@ -404,7 +423,7 @@ split
 			&& current.bossHealth == 0 
 			&& current.gameStatus == 15 && current.timerStart == 0 && old.timerStart == 1)
 		{
-			 if(current.level == 18 && current.currCharacter == 0)
+			if(current.level == 18 && current.currCharacter == 0)
 				return false;
 			else
 				return true;
@@ -438,6 +457,18 @@ split
 		else if (settings["Gamma_Powerup1"] && current.jetbooster > old.jetbooster) 	{return true;}
 		else if (settings["Gamma_Powerup2"] && current.laserblaster > old.laserblaster) {return true;}
 	}
+
+	// Enter bosses splits
+
+	if (settings["Boss_Enter"])
+	{
+		if (settings["EnterEggHornet"] && current.level == 20 && old.level == 33) {return true;}
+		else if (settings["EnterChaos2"] && current.level == 16 && old.level == 26) {return true;}
+		else if (settings["EnterChaos4"] && current.level == 17 && old.level == 33) {return true;}
+		else if (settings["EnterChaos6"] && current.level == 18 && old.level == 29) {return true;}
+		else if (settings["EnterBeta1"] && current.level == 24 && old.level == 33) {return true;}
+		else if (settings["EnterBeta2"] && current.level == 25 && old.level == 29) {return true;}
+	}
 	
 	// enter level split
 	
@@ -456,7 +487,25 @@ split
 		else if (settings["EHS"] && current.level == 12 && old.level == 32)	{return true;}
 	}
 	
-	//Miscellaneous splits 
+	//Miscellaneous splits
+	//Sonic
+	if (settings["MisceSonic"])
+	{
+		if (current.level == 26 && (current.act == 2 && old.act == 0))
+		{
+			if (settings["EnterSewerSonic"] && current.currCharacter == 0) {return true;}
+		}
+
+		if (current.level == 26 && ((curB[8] & 0x8) >> 3) == 1 && ((curB[8] & 0x10) >> 4) == 0)
+		{
+			if (current.act == 1 && (old.act == 3 || old.act == 4)) 
+			{
+				if (settings["EnterCASHubSonic"] && current.currCharacter == 0) {return true;}
+			}
+		}
+	}
+
+	//Gamma
 	if (settings["MisceGamma"])
 	{				 
 		if (current.level == 33 && current.act == 0) //the condition is split like this, because otherwise too many "&&" make the autosplitter not working for some reason... 
@@ -476,27 +525,42 @@ split
 	}
 	
 	//Knuckles
-		if (settings["MisceKnuckles"])
-		{				
-			if (current.level == 33 && current.act == 1)
-			{
-				if (settings["deathMRKnux"] && current.lwFlag == 1 && current.lives<old.lives && current.currCharacter == 3) {return true;}
-			}
-			
-				if (current.level == 29 && old.level == 33)
-			{
-				if (settings["EnterEGCarrierKnux"] && current.currCharacter == 3) {return true;}
-			}
+	if (settings["MisceKnuckles"])
+	{				
+		if (current.level == 33 && current.act == 1)
+		{
+			if (settings["deathMRKnux"] && current.lwFlag == 1 && current.lives<old.lives && current.currCharacter == 3) {return true;}
 		}
 		
-			//Amy
-		if (settings["MisceAmy"])
-		{				
 			if (current.level == 29 && old.level == 33)
-			{
-				if (settings["EnterEGCarrierAmy"] && current.currCharacter == 5) {return true;}
-			}
+		{
+			if (settings["EnterEGCarrierKnux"] && current.currCharacter == 3) {return true;}
 		}
+	}
+	
+	//Amy
+	if (settings["MisceAmy"])
+	{				
+		if (current.level == 29 && old.level == 33)
+		{
+			if (settings["EnterEGCarrierAmy"] && current.currCharacter == 5) {return true;}
+		}
+
+		if (current.level == 26 && (current.act == 1 && old.act == 3)) 
+		{
+			if (settings["EnterCASHubAmy"] && current.currCharacter == 5) {return true;}
+		}
+
+		if (current.level == 33 && (current.act == 2 && old.act == 0))
+		{
+			if (settings["EnterJungleToFEAmy"] && current.currCharacter == 5) {return true;}
+		}
+
+		if (current.level == 33 && (current.act == 0 && old.act == 2))
+		{
+			if (settings["ExitJungleToECAmy"] && current.currCharacter == 5) {return true;}
+		}
+	}
 		
 	//Super Sonic
 	if (settings["MisceSS"] && current.selectedCharacter == 6)
