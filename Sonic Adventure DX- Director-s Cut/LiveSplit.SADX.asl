@@ -546,7 +546,7 @@ split
 			if (settings["EnterEGCarrierAmy"] && current.currCharacter == 5) {return true;}
 		}
 
-		if (current.level == 26 && (current.act == 1 && old.act == 3)) 
+		if (((curB[0xA] & 0x10) >> 4) == 0 && current.level == 26 && (current.act == 1 && old.act == 3)) 
 		{
 			if (settings["EnterCASHubAmy"] && current.currCharacter == 5) {return true;}
 		}
