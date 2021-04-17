@@ -185,10 +185,19 @@ startup
 		settings.Add("sonicGamma", true, "Sonic", "gammaBoss");
 		settings.CurrentDefaultParent = null;
 
+	settings.Add("globalMisc", false, "Miscellaneous");
+		settings.CurrentDefaultParent = "globalMisc";
+		settings.Add("actSplit", false, "Split between the Acts (might not work for characters other than sonic)");
+		settings.CurrentDefaultParent = null;
+
 	settings.Add("MisceSonic", false, "Sonic Miscellaneous");
 		settings.CurrentDefaultParent = "MisceSonic";
 		settings.Add("EnterSewerSonic", false, "Enter Sewers");
 		settings.Add("EnterCASHubSonic", false, "Enter Casino Area (To Red Mountain)");
+		settings.Add("shipTransform", false, "Ship Transformation");
+		settings.Add("backFromPast", false, "Splits when going back to the present after Lost World");
+		settings.Add("EnterSS", false, "Enter Station Square from the Train Station");
+		settings.Add("EnterMR", false, "Enter Mystic Ruins from the Train Station");
 		settings.CurrentDefaultParent = null;
 			
 	settings.Add("MisceKnuckles", false, "Knuckles Miscellaneous");
@@ -488,6 +497,16 @@ split
 	}
 	
 	//Miscellaneous splits
+	
+	//Global misc
+	if(settings["globalMisc"])
+	{
+		if(settings["actSplit"] && current.level != 0 && current.level != 15 && current.level != 22 && current.level != 26 && current.level != 29 && current.level != 32 && current.level != 33 && current.level != 37)
+		{
+			if (current.act != old.act) {return true;}
+		}
+	}
+	
 	//Sonic
 	if (settings["MisceSonic"])
 	{
@@ -502,6 +521,26 @@ split
 			{
 				if (settings["EnterCASHubSonic"] && current.currCharacter == 0) {return true;}
 			}
+		}
+		
+		if(settings["shipTransform"] && current.level == 29 && current.act == 6 && old.act == 3)
+		{
+			return true;
+		}
+		
+		if(settings["backFromPast"] && current.level == 33 && current.act == 2 && old.level == 34 && old.act == 2)
+		{
+			return true;
+		}
+		
+		if(settings["EnterSS"] && current.level == 26 && current.act == 1 && old.level == 33 && old.act == 0)
+		{
+			return true;
+		}
+		
+		if(settings["EnterMR"] && current.level == 33 && current.act == 0 && old.level == 26 && old.act == 1)
+		{
+			return true;
 		}
 	}
 
