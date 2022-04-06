@@ -35,6 +35,7 @@
 state("sonic")
 {
 	int globalFrameCount: 0x0372C6C8; //0x03B2C6C8-0x00400000 //directly tied to game speed, but freezes when pausing
+	int outputFrameCount: 0x036BDF58; //0x03ABDF58-0x00400000 // the framecounter of actual outputted frames, should only be used when the camera framecounter doesn't run
 	int inCutscene: 0x0372C55C;//0x03B2C55C-0x00400000
 	byte gameStatus: 0x03722DE4;//0x03B22DE4-0x00400000
 	byte gameMode: 0x036BDC7C; //0x03ABDC7C-0x00400000
@@ -84,6 +85,7 @@ state("sonic")
 state("Sonic Adventure DX")
 {
 	int globalFrameCount: 0x0372C6C8; //0x03B2C6C8-0x00400000 //directly tied to game speed, but freezes when pausing
+	int outputFrameCount: 0x036BDF58; //0x03ABDF58-0x00400000 // the framecounter of actual outputted frames, should only be used when the camera framecounter doesn't run
 	int inCutscene: 0x0372C55C;//0x03B2C55C-0x00400000
 	byte gameStatus: 0x03722DE4;//0x03B22DE4-0x00400000
 	byte gameMode: 0x036BDC7C; //0x03ABDC7C-0x00400000
@@ -277,7 +279,7 @@ startup
 start
 {
 	vars.totalFrameCount = 0;
-	vars.totalCutsceneRTA = new TimeSpan(0); //For pre-rendered cutscene rta and pausing
+	vars.totalCutsceneRTA = new TimeSpan(0); //For pre-rendered cutscene RTA
 	vars.previousRTA = new TimeSpan(0);
 	vars.creditsCounter = -1;
 	vars.delay = 0;
@@ -649,15 +651,19 @@ update
 	
 	/* Add RTA to the IGT when the frame counter
 		does not increase */
-	if (current.inPrerenderedMovie != 0 ||
-		current.gameMode == 1 || //Splash logos
+	if (current.inPrerenderedMovie != 0)
+	{
+		vars.totalCutsceneRTA = vars.totalCutsceneRTA.Add(currentRTA-vars.previousRTA);
+	}
+
+	if (current.gameMode == 1 || //Splash logos
 		current.gameMode == 12 || //Title + menus
 		current.gameMode == 18 || //Story introduction screen
 		current.gameMode == 20 || //Instruction
 		current.gameStatus == 19 || //Game over screen
 		current.gameStatus == 16) //Pause
 	{
-		vars.totalCutsceneRTA = vars.totalCutsceneRTA.Add(currentRTA-vars.previousRTA);
+		vars.totalFrameCount += current.outputFrameCount - old.outputFrameCount;
 	}
 	
 	if (current.gameMode == 22) //Credits

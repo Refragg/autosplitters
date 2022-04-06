@@ -35,6 +35,7 @@
 state("sonic")
 {
 	int globalFrameCount: 0x0372C6C8; //0x03B2C6C8-0x00400000 //directly tied to game speed, but freezes when pausing
+	int outputFrameCount: 0x036BDF58; //0x03ABDF58-0x00400000 // the framecounter of actual outputted frames, should only be used when the camera framecounter doesn't run
 	int inCutscene: 0x0372C55C;//0x03B2C55C-0x00400000
 	byte gameStatus: 0x03722DE4;//0x03B22DE4-0x00400000
 	byte gameMode: 0x036BDC7C; //0x03ABDC7C-0x00400000
@@ -87,6 +88,7 @@ state("sonic")
 state("Sonic Adventure DX")
 {
 	int globalFrameCount: 0x0372C6C8; //0x03B2C6C8-0x00400000 //directly tied to game speed, but freezes when pausing
+	int outputFrameCount: 0x036BDF58; //0x03ABDF58-0x00400000 // the framecounter of actual outputted frames, should only be used when the camera framecounter doesn't run
 	int inCutscene: 0x0372C55C;//0x03B2C55C-0x00400000
 	byte gameStatus: 0x03722DE4;//0x03B22DE4-0x00400000
 	byte gameMode: 0x036BDC7C; //0x03ABDC7C-0x00400000
@@ -149,6 +151,7 @@ startup
 	vars.splitMask = new byte[353];
 	
 	settings.Add("reset",false,"Auto Reset on Main Menu");
+	settings.Add("charSplit", false, "Splits when entering a story");
 	
 	settings.Add("KCC",false,"Knuckles Centurion");
 	
@@ -230,7 +233,17 @@ startup
 	settings.Add("ELW", false, "Enter Lost World");
 	settings.Add("EFE", false, "Enter Final Egg");
 	settings.Add("EHS", false, "Enter Hot Shelter");
-	settings.CurrentDefaultParent = null;		
+	settings.CurrentDefaultParent = null;
+
+	settings.Add("Boss_Enter", false, "Enter Boss");
+		settings.CurrentDefaultParent = "Boss_Enter";
+		settings.Add("EnterEggHornet", false, "Enter Egg Hornet");
+		settings.Add("EnterChaos2", false, "Enter Chaos 2");
+		settings.Add("EnterChaos4", false, "Enter Chaos 4");
+		settings.Add("EnterChaos6", false, "Enter Chaos 6");
+		settings.Add("EnterBeta1", false, "Enter E-101 'Beta' mkI");
+		settings.Add("EnterBeta2", false, "Enter E-101 'Beta' mkII");
+		settings.CurrentDefaultParent = null;
 			
 	settings.Add("S_Power", false, "Upgrades");
 	settings.CurrentDefaultParent = "S_Power";
@@ -337,6 +350,9 @@ start
 
 split
 {
+	if (settings["charSplit"] && current.demoPlaying != 1 && old.gameStatus == 21 && (current.gameMode != 12 && current.gameMode != 20) && (old.gameMode == 12 || old.gameMode == 20))
+		return true;
+
 	//Ignore Stages
 	if(vars.ignoredStages.Contains(current.level))
 		return false;
@@ -354,17 +370,17 @@ split
 	
 	//KCC Splits
 
-		if (settings["KCC"] && current.chaos6Clear == 1)
-			if (current.currCharacter == 3)
-			{
-					if (current.kccCheck == 3 && old.kccCheck != 3)
-						if (current.level > 3 && current.level < 10) //split for knuckles stage (centurion)
-							return true;
+	if (settings["KCC"] && current.chaos6Clear == 1)
+		if (current.currCharacter == 3)
+		{
+			if (current.kccCheck == 3 && old.kccCheck != 3)
+				if (current.level > 3 && current.level < 10) //split for knuckles stage (centurion)
+					return true;
 
-						if (current.gameStatus == 15)
-							if (current.level == 7 && current.act == 2 && old.timerStart>current.timerStart)
-								return true;
-			}
+				if (current.gameStatus == 15)
+					if (current.level == 7 && current.act == 2 && old.timerStart>current.timerStart)
+						return true;
+		}	
 
 	
 
@@ -372,8 +388,8 @@ split
 	//Mission mode Split
 	if (current.gameMode == 10)
 	{
-				if (current.missionClear > old.missionClear)
-					return true;
+		if (current.missionClear > old.missionClear)
+			return true;
 	}
 
 
@@ -462,6 +478,18 @@ split
 		else if (settings["Gamma_Powerup2"] && current.laserblaster > old.laserblaster) {return true;}
 	}
 	
+	// Enter bosses splits
+
+	if (settings["Boss_Enter"])
+	{
+		if (settings["EnterEggHornet"] && current.level == 20 && old.level == 33) {return true;}
+		else if (settings["EnterChaos2"] && current.level == 16 && old.level == 26) {return true;}
+		else if (settings["EnterChaos4"] && current.level == 17 && old.level == 33) {return true;}
+		else if (settings["EnterChaos6"] && current.level == 18 && old.level == 29) {return true;}
+		else if (settings["EnterBeta1"] && current.level == 24 && old.level == 33) {return true;}
+		else if (settings["EnterBeta2"] && current.level == 25 && old.level == 29) {return true;}
+	}
+
 	// enter level split
 	
 	if (settings["S_Enter"])
@@ -569,15 +597,19 @@ update
 	
 	/* Add RTA to the IGT when the frame counter
 		does not increase */
-	if (current.inPrerenderedMovie != 0 ||
-		current.gameMode == 1 || //Splash logos
+	if (current.inPrerenderedMovie != 0)
+	{
+		vars.totalCutsceneRTA = vars.totalCutsceneRTA.Add(currentRTA-vars.previousRTA);
+	}
+
+	if (current.gameMode == 1 || //Splash logos
 		current.gameMode == 12 || //Title + menus
 		current.gameMode == 18 || //Story introduction screen
 		current.gameMode == 20 || //Instruction
 		current.gameStatus == 19 || //Game over screen
 		current.gameStatus == 16) //Pause
 	{
-		vars.totalCutsceneRTA = vars.totalCutsceneRTA.Add(currentRTA-vars.previousRTA);
+		vars.totalFrameCount += current.outputFrameCount - old.outputFrameCount;
 	}
 	
 	if (current.gameMode == 22) //Credits
