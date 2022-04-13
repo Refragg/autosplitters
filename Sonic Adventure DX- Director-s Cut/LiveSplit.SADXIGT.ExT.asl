@@ -153,7 +153,8 @@ startup
 	settings.Add("reset",false,"Auto Reset on Main Menu");
 	settings.Add("charSplit", false, "Splits when entering a story");
 	
-	settings.Add("KCC",false,"Knuckles Centurion");
+	settings.Add("KCC", false, "Knuckles Centurion");
+	settings.Add("centurionEntry", false, "Start on Enter", "KCC");
 	
 	settings.Add("stages",true,"Stages NOT To Split");
 		settings.Add("36",true,"Sky Chace Act 1","stages");
@@ -344,8 +345,18 @@ start
 	
 
 	// Split on fade-to-black on story screen
-		if (current.demoPlaying != 1 && old.gameStatus == 21 && (current.gameMode != 12 && current.gameMode != 20) && (old.gameMode == 12 || old.gameMode == 20))
+	if (current.demoPlaying != 1 && old.gameStatus == 21 && (current.gameMode != 12 && current.gameMode != 20) && (old.gameMode == 12 || old.gameMode == 20))
+		return true;
+
+	if (settings["centurionEntry"])
+	{
+		if ((current.level == 4 || current.level == 9) && old.level == 26)
 			return true;
+		else if ((current.level == 5 || current.level == 7) && old.level == 33)
+			return true;
+		else if (current.level == 6 && old.level == 29)
+			return true;
+	}
 }
 
 split
