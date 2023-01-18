@@ -152,6 +152,8 @@ startup
 	
 	settings.Add("reset",false,"Auto Reset on Main Menu");
 	settings.Add("charSplit", false, "Splits when entering a story");
+	settings.Add("charSplitBanTrial", false, "...But not when in trial");
+	settings.Add("charStartBanTrial", false, "Don't start when in trial");
 	
 	settings.Add("KCC", false, "Knuckles Centurion");
 	settings.Add("centurionEntry", false, "Start on Enter", "KCC");
@@ -342,10 +344,19 @@ start
 	}
 
 	vars.splitMask = tempMask;
-	
 
-	// Split on fade-to-black on story screen
-	if (current.demoPlaying != 1 && old.gameStatus == 21 && (current.gameMode != 12 && current.gameMode != 20) && (old.gameMode == 12 || old.gameMode == 20))
+	Func<bool> storyEnterStartCondition = () => 
+	{
+		bool storyEnterStart = current.demoPlaying != 1 && old.gameStatus == 21 && (current.gameMode != 12 && current.gameMode != 20) && (old.gameMode == 12 || old.gameMode == 20);
+
+		if (settings["charStartBanTrial"])
+			return storyEnterStart && current.gameMode != 9;
+
+		return storyEnterStart;
+	};
+
+	// Start on fade-to-black on story screen
+	if (storyEnterStartCondition())
 		return true;
 
 	if (settings["centurionEntry"])
@@ -361,7 +372,17 @@ start
 
 split
 {
-	if (settings["charSplit"] && current.demoPlaying != 1 && old.gameStatus == 21 && (current.gameMode != 12 && current.gameMode != 20) && (old.gameMode == 12 || old.gameMode == 20))
+	Func<bool> storyEnterSplitCondition = () => 
+	{
+		bool storyEnterSplit = settings["charSplit"] && current.demoPlaying != 1 && old.gameStatus == 21 && (current.gameMode != 12 && current.gameMode != 20) && (old.gameMode == 12 || old.gameMode == 20);
+
+		if (settings["charSplitBanTrial"])
+			return storyEnterSplit && current.gameMode != 9;
+
+		return storyEnterSplit;
+	};
+
+	if (storyEnterSplitCondition())
 		return true;
 
 	//Ignore Stages
