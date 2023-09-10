@@ -152,7 +152,7 @@ startup
 	settings.Add("charStartBanTrial", false, "Don't start when in trial");
 	
 	settings.Add("stages",true,"Stages NOT To Split");
-		settings.Add("36",true,"Sky Chace Act 1","stages");
+		settings.Add("36",true,"Sky Chase Act 1","stages");
 		settings.Add("37",true,"Sky Chase Act 2","stages");
 	
 	settings.Add("bosses",true,"Final Boss To Split");
